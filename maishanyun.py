@@ -1,5 +1,16 @@
-import pandas as pd
-import numpy as np
+try:
+    import pandas as pd
+    import numpy as np
+except ImportError as e:
+    missing = str(e).split()[-1].strip("'\"")
+    msg = (
+        f"Required package not found: {missing}.\n"
+        "Please install dependencies with: pip install -r requirements.txt\n"
+        "Or run: python -m pip install pandas numpy openpyxl"
+    )
+    # Provide a clear runtime error so users running the script see the cause
+    raise ImportError(msg)
+
 from pathlib import Path
 import os
 
