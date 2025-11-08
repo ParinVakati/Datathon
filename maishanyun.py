@@ -37,7 +37,7 @@ st.markdown("""
 if 'loaded_dataframes' not in st.session_state:
     st.session_state.loaded_dataframes = {}
 
-# Function to load data files
+# Function to load data files 
 @st.cache_data
 def load_data_files(directory_path):
     """Load all CSV and Excel files from a directory"""
