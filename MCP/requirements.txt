@@ -1,0 +1,15 @@
+# Developer Intelligence MCP Server Dependencies
+# No external dependencies required - uses Python standard library only
+# 
+# Optional: For enhanced functionality, you can install:
+# requests>=2.31.0  # Alternative HTTP library (not required, urllib is used)
+
+# Note: This server uses only Python standard library modules:
+# - http.server (HTTPServer, BaseHTTPRequestHandler)
+# - json
+# - urllib.request, urllib.parse, urllib.error
+# - datetime
+# - os
+# - re
+# - typing
+

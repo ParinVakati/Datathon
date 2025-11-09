@@ -1,0 +1,7 @@
+# Case Closed - Tron Agent Dependencies
+# CPU-only PyTorch is provided in the base image
+# No GPU/CUDA dependencies allowed
+
+# Standard library dependencies only
+# All required functionality is in Python standard library
+
