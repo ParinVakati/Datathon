@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mai Shan Yun - Inventory Intelligence Dashboard</title>
+    <title>Mai Shan Yun - Inventory Intelligence</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,178 +14,248 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            padding: 20px;
+            font-family: 'Lato', sans-serif;
+            background: #FFFBF7;
+            color: #2A2A2A;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 30px;
         }
 
         header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
+            background: #8B0000;
+            padding: 60px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.9) 0%, rgba(178, 34, 34, 0.9) 100%);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            color: #FFFFFF;
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
         }
 
         .subtitle {
-            color: #666;
-            font-size: 1.2em;
+            font-family: 'Lato', sans-serif;
+            color: #FFD700;
+            font-size: 1.1em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
-        .dashboard-grid {
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: #8B0000;
+            font-size: 2em;
+            margin: 60px 0 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #8B0000;
+            margin: 15px auto 0;
+        }
+
+        .metric-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid #E8D5C4;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8B0000, #B22222);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .metric-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(139, 0, 0, 0.15);
+        }
+
+        .metric-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #8B0000;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin: 40px 0;
         }
 
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            padding: 40px;
+            border: 1px solid #E8D5C4;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.1);
         }
 
-        .card h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-        }
-
-        .metric-row {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .metric {
-            flex: 1;
-            min-width: 150px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .metric-label {
-            font-size: 0.9em;
-            opacity: 0.9;
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: #8B0000;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #E8D5C4;
         }
 
         .alert {
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid;
+            background: #FFFBF7;
+            font-size: 0.95em;
         }
 
         .alert-critical {
-            background: #fee;
-            border-left: 5px solid #f44336;
-            color: #c62828;
+            border-left-color: #8B0000;
+            background: #FFF5F5;
         }
 
         .alert-warning {
-            background: #fff3e0;
-            border-left: 5px solid #ff9800;
-            color: #e65100;
+            border-left-color: #D4AF37;
+            background: #FFFEF0;
         }
 
         .alert-success {
-            background: #e8f5e9;
-            border-left: 5px solid #4caf50;
-            color: #2e7d32;
+            border-left-color: #2D5016;
+            background: #F0F8F0;
         }
 
-        .ingredient-list {
-            max-height: 300px;
-            overflow-y: auto;
+        .alert strong {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2A2A2A;
         }
 
-        .ingredient-item {
-            padding: 12px;
-            margin: 8px 0;
-            background: #f5f5f5;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ingredient-bar {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .ingredient-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4caf50, #8bc34a);
-            transition: width 0.3s ease;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
+        }
+
+        th {
+            background: #FFFBF7;
+            color: #8B0000;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #E8D5C4;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #F5F0EA;
+            color: #444;
+        }
+
+        tr:hover {
+            background: #FFFBF7;
         }
 
         .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
+            gap: 0;
+            border-bottom: 2px solid #E8D5C4;
+            margin-bottom: 30px;
         }
 
         .tab {
-            padding: 12px 24px;
+            padding: 15px 30px;
             background: none;
             border: none;
             color: #666;
             cursor: pointer;
-            font-size: 1em;
-            font-weight: 500;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95em;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: #8B0000;
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #8B0000;
+            border-bottom-color: #8B0000;
+            font-weight: 600;
         }
 
         .tab-content {
@@ -193,139 +264,198 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.4s ease;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        th {
-            background: #f5f5f5;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background: #f9f9f9;
-        }
-
-        .prediction-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 10px 0;
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
         }
 
         .wide-card {
             grid-column: 1 / -1;
         }
 
+        .ingredient-item {
+            padding: 20px;
+            margin: 15px 0;
+            background: #FFFBF7;
+            border: 1px solid #E8D5C4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .ingredient-item:hover {
+            border-color: #8B0000;
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.1);
+        }
+
+        .ingredient-bar {
+            height: 6px;
+            background: #F5F0EA;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .ingredient-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B0000, #B22222);
+            transition: width 0.6s ease;
+        }
+
+        .cost-highlight {
+            font-weight: 700;
+            color: #8B0000;
+            font-size: 1.1em;
+        }
+
+        .prediction-box {
+            background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
+            color: white;
+            padding: 35px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .prediction-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .protein-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .protein-item {
+            flex: 1;
+        }
+
+        .protein-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .protein-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #E8D5C4;
+            margin-top: 80px;
+        }
+
         @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-            }
+            h1 { font-size: 2.5em; }
+            .content-grid { grid-template-columns: 1fr; }
+            .metric-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .metric-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🍜 Mai Shan Yun Inventory Intelligence</h1>
-            <p class="subtitle">Real-time Restaurant Inventory Analytics & Forecasting</p>
-        </header>
+    <header>
+        <div class="header-content">
+            <h1>Mai Shan Yun</h1>
+            <p class="subtitle">Inventory Intelligence Dashboard</p>
+        </div>
+    </header>
 
-        <div class="metric-row">
-            <div class="metric">
-                <div class="metric-value" id="totalItems">17</div>
+    <div class="container">
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div class="metric-value">17</div>
                 <div class="metric-label">Menu Items</div>
             </div>
-            <div class="metric">
-                <div class="metric-value" id="totalIngredients">14</div>
+            <div class="metric-card">
+                <div class="metric-value">14</div>
                 <div class="metric-label">Tracked Ingredients</div>
             </div>
-            <div class="metric">
-                <div class="metric-value" id="weeklyShipments">40</div>
+            <div class="metric-card">
+                <div class="metric-value">40</div>
                 <div class="metric-label">Weekly Shipments</div>
             </div>
-            <div class="metric">
-                <div class="metric-value" id="alertCount">3</div>
+            <div class="metric-card">
+                <div class="metric-value">3</div>
                 <div class="metric-label">Active Alerts</div>
             </div>
         </div>
 
-        <div class="dashboard-grid">
+        <h2 class="section-title">Operations Overview</h2>
+
+        <div class="content-grid">
             <div class="card">
-                <h2>🚨 Critical Alerts</h2>
+                <h3 class="card-title">Critical Alerts</h3>
                 <div class="alert alert-critical">
-                    <span>⚠️</span>
-                    <div>
-                        <strong>Eggs - Critical Low</strong><br>
-                        Reorder immediately: 600 eggs needed for weekly demand
-                    </div>
+                    <strong>Eggs - Critical Low</strong>
+                    Reorder immediately: 600 eggs needed for weekly demand
                 </div>
                 <div class="alert alert-warning">
-                    <span>⚠️</span>
-                    <div>
-                        <strong>Braised Beef - Running Low</strong><br>
-                        Current stock covers ~3 days at current consumption rate
-                    </div>
+                    <strong>Braised Beef - Running Low</strong>
+                    Current stock covers ~3 days at current consumption rate
                 </div>
                 <div class="alert alert-warning">
-                    <span>⚠️</span>
-                    <div>
-                        <strong>Green Onion - Low Stock</strong><br>
-                        Next shipment due in 2 days
-                    </div>
+                    <strong>Green Onion - Low Stock</strong>
+                    Next shipment due in 2 days
                 </div>
             </div>
 
             <div class="card">
-                <h2>📊 Top Ingredient Usage</h2>
+                <h3 class="card-title">Top Ingredient Usage</h3>
                 <div class="chart-container">
                     <canvas id="ingredientUsageChart"></canvas>
                 </div>
             </div>
+        </div>
 
+        <div class="content-grid">
             <div class="card">
-                <h2>🍖 Protein Consumption Forecast</h2>
-                <div class="prediction-card">
-                    <h3 style="margin-bottom: 15px;">Weekly Protein Needs</h3>
-                    <div style="display: flex; justify-content: space-around; text-align: center;">
-                        <div>
-                            <div style="font-size: 2em; font-weight: bold;">120 lbs</div>
-                            <div>Beef (3 shipments)</div>
+                <h3 class="card-title">Protein Forecast</h3>
+                <div class="prediction-box">
+                    <h3>Weekly Protein Requirements</h3>
+                    <div class="protein-grid">
+                        <div class="protein-item">
+                            <div class="protein-value">120 lbs</div>
+                            <div class="protein-label">Beef<br>(3 shipments)</div>
                         </div>
-                        <div>
-                            <div style="font-size: 2em; font-weight: bold;">80 lbs</div>
-                            <div>Chicken (2 shipments)</div>
+                        <div class="protein-item">
+                            <div class="protein-value">80 lbs</div>
+                            <div class="protein-label">Chicken<br>(2 shipments)</div>
                         </div>
-                        <div>
-                            <div style="font-size: 2em; font-weight: bold;">40 lbs</div>
-                            <div>Pork (estimated)</div>
+                        <div class="protein-item">
+                            <div class="protein-value">40 lbs</div>
+                            <div class="protein-label">Pork<br>(estimated)</div>
                         </div>
                     </div>
                 </div>
-                <div class="alert alert-success" style="margin-top: 15px;">
-                    <span>✓</span>
-                    <div>All protein shipments on schedule</div>
+                <div class="alert alert-success">
+                    <strong>Status Update</strong>
+                    All protein shipments on schedule
                 </div>
             </div>
 
             <div class="card">
-                <h2>📅 Shipment Schedule</h2>
+                <h3 class="card-title">Shipment Schedule</h3>
                 <table>
                     <thead>
                         <tr>
@@ -353,7 +483,7 @@
                         <tr>
                             <td>🥚 Eggs</td>
                             <td>Weekly (5x, 600 total)</td>
-                            <td><strong style="color: #f44336;">OVERDUE</strong></td>
+                            <td><strong style="color: #8B0000;">OVERDUE</strong></td>
                         </tr>
                         <tr>
                             <td>🌾 Rice</td>
@@ -363,179 +493,149 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <div class="card wide-card">
-                <h2>📈 Menu Item Performance & Ingredient Impact</h2>
-                <div class="tabs">
-                    <button class="tab active" onclick="showTab('sales')">Sales Analysis</button>
-                    <button class="tab" onclick="showTab('ingredients')">Ingredient Matrix</button>
-                    <button class="tab" onclick="showTab('forecast')">Demand Forecast</button>
-                </div>
+        <div class="card wide-card">
+            <h3 class="card-title">Menu Performance Analysis</h3>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('sales')">Sales Trends</button>
+                <button class="tab" onclick="showTab('ingredients')">Ingredient Matrix</button>
+                <button class="tab" onclick="showTab('forecast')">Demand Forecast</button>
+            </div>
 
-                <div id="sales" class="tab-content active">
-                    <div class="chart-container" style="height: 400px;">
-                        <canvas id="menuSalesChart"></canvas>
-                    </div>
-                </div>
-
-                <div id="ingredients" class="tab-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Menu Item</th>
-                                <th>Key Ingredients</th>
-                                <th>Protein (g)</th>
-                                <th>Complexity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Beef Tossed Ramen</td>
-                                <td>Beef, Ramen, Egg, Pickle Cabbage</td>
-                                <td>140</td>
-                                <td>High</td>
-                            </tr>
-                            <tr>
-                                <td>Chicken Fried Rice</td>
-                                <td>Chicken, Rice, Egg, Vegetables</td>
-                                <td>100</td>
-                                <td>Medium</td>
-                            </tr>
-                            <tr>
-                                <td>Fried Wings</td>
-                                <td>Chicken Wings, Flour</td>
-                                <td>0 (8 pcs)</td>
-                                <td>Low</td>
-                            </tr>
-                            <tr>
-                                <td>Beef Rice Noodle Soup</td>
-                                <td>Beef, Rice Noodles, Egg, Vegetables</td>
-                                <td>140</td>
-                                <td>High</td>
-                            </tr>
-                            <tr>
-                                <td>Chicken Cutlet</td>
-                                <td>Chicken Thigh, Tapioca Starch, Egg</td>
-                                <td>0 (1 pc)</td>
-                                <td>Medium</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="forecast" class="tab-content">
-                    <div class="chart-container" style="height: 400px;">
-                        <canvas id="forecastChart"></canvas>
-                    </div>
-                    <div style="margin-top: 20px;">
-                        <h3>AI-Powered Predictions</h3>
-                        <div class="alert alert-success">
-                            <span>📈</span>
-                            <div>
-                                <strong>Trend Analysis:</strong> Ramen dishes showing 15% increase in popularity. Recommend increasing noodle shipment frequency.
-                            </div>
-                        </div>
-                        <div class="alert alert-warning">
-                            <span>📊</span>
-                            <div>
-                                <strong>Seasonal Insight:</strong> Fried rice orders typically spike on weekends. Ensure adequate rice stock for Fri-Sun.
-                            </div>
-                        </div>
-                    </div>
+            <div id="sales" class="tab-content active">
+                <div class="chart-container" style="height: 400px;">
+                    <canvas id="menuSalesChart"></canvas>
                 </div>
             </div>
 
-            <div class="card">
-                <h2>💰 Cost Optimization</h2>
-                <div class="ingredient-list">
-                    <div class="ingredient-item">
-                        <div style="flex: 1;">
-                            <strong>Beef (High Volume)</strong>
-                            <div style="font-size: 0.9em; color: #666;">120 lbs/week @ $8/lb</div>
-                            <div class="ingredient-bar">
-                                <div class="ingredient-bar-fill" style="width: 85%;"></div>
-                            </div>
-                        </div>
-                        <div style="font-weight: bold; color: #667eea;">$960/wk</div>
-                    </div>
-                    <div class="ingredient-item">
-                        <div style="flex: 1;">
-                            <strong>Chicken (Medium Volume)</strong>
-                            <div style="font-size: 0.9em; color: #666;">80 lbs/week @ $4/lb</div>
-                            <div class="ingredient-bar">
-                                <div class="ingredient-bar-fill" style="width: 60%;"></div>
-                            </div>
-                        </div>
-                        <div style="font-weight: bold; color: #667eea;">$320/wk</div>
-                    </div>
-                    <div class="ingredient-item">
-                        <div style="flex: 1;">
-                            <strong>Eggs (High Usage)</strong>
-                            <div style="font-size: 0.9em; color: #666;">600 eggs/week @ $0.30/egg</div>
-                            <div class="ingredient-bar">
-                                <div class="ingredient-bar-fill" style="width: 45%;"></div>
-                            </div>
-                        </div>
-                        <div style="font-weight: bold; color: #667eea;">$180/wk</div>
-                    </div>
-                    <div class="ingredient-item">
-                        <div style="flex: 1;">
-                            <strong>Rice (Staple)</strong>
-                            <div style="font-size: 0.9em; color: #666;">100 lbs biweekly @ $2/lb</div>
-                            <div class="ingredient-bar">
-                                <div class="ingredient-bar-fill" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                        <div style="font-weight: bold; color: #667eea;">$100/2wk</div>
-                    </div>
-                    <div class="ingredient-item">
-                        <div style="flex: 1;">
-                            <strong>Vegetables (Mixed)</strong>
-                            <div style="font-size: 0.9em; color: #666;">Combined weekly order</div>
-                            <div class="ingredient-bar">
-                                <div class="ingredient-bar-fill" style="width: 35%;"></div>
-                            </div>
-                        </div>
-                        <div style="font-weight: bold; color: #667eea;">$150/wk</div>
-                    </div>
-                </div>
-                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
-                    <strong>Total Weekly Cost: ~$1,610</strong><br>
-                    <span style="font-size: 0.9em; color: #666;">Based on average market prices</span>
-                </div>
+            <div id="ingredients" class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Menu Item</th>
+                            <th>Key Ingredients</th>
+                            <th>Protein (g)</th>
+                            <th>Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Beef Tossed Ramen</td>
+                            <td>Beef, Ramen, Egg, Pickle Cabbage</td>
+                            <td>140</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td>Chicken Fried Rice</td>
+                            <td>Chicken, Rice, Egg, Vegetables</td>
+                            <td>100</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td>Fried Wings</td>
+                            <td>Chicken Wings, Flour</td>
+                            <td>0 (8 pcs)</td>
+                            <td>Low</td>
+                        </tr>
+                        <tr>
+                            <td>Beef Rice Noodle Soup</td>
+                            <td>Beef, Rice Noodles, Egg, Vegetables</td>
+                            <td>140</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td>Chicken Cutlet</td>
+                            <td>Chicken Thigh, Tapioca Starch, Egg</td>
+                            <td>0 (1 pc)</td>
+                            <td>Medium</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="card">
-                <h2>🎯 Optimization Recommendations</h2>
-                <div style="margin-top: 15px;">
+            <div id="forecast" class="tab-content">
+                <div class="chart-container" style="height: 400px;">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+                <div style="margin-top: 30px;">
                     <div class="alert alert-success">
-                        <span>💡</span>
-                        <div>
-                            <strong>Bulk Buying Opportunity</strong><br>
-                            Consider negotiating monthly contracts for beef and chicken to save 10-15%
-                        </div>
+                        <strong>Trend Analysis</strong>
+                        Ramen dishes showing 15% increase in popularity. Recommend increasing noodle shipment frequency.
                     </div>
-                    <div class="alert alert-success">
-                        <span>💡</span>
-                        <div>
-                            <strong>Reduce Waste</strong><br>
-                            Green onions and cilantro have high spoilage rates. Optimize order quantities based on 5-day freshness window.
-                        </div>
-                    </div>
-                    <div class="alert alert-success">
-                        <span>💡</span>
-                        <div>
-                            <strong>Menu Engineering</strong><br>
-                            Promote dishes with overlapping ingredients (e.g., tossed dishes) to improve ingredient utilization and reduce complexity.
-                        </div>
+                    <div class="alert alert-warning">
+                        <strong>Seasonal Insight</strong>
+                        Fried rice orders typically spike on weekends. Ensure adequate rice stock for Fri-Sun.
                     </div>
                 </div>
             </div>
         </div>
+
+        <h2 class="section-title">Cost Analysis</h2>
+
+        <div class="content-grid">
+            <div class="card">
+                <h3 class="card-title">Weekly Cost Breakdown</h3>
+                <div class="ingredient-item">
+                    <div style="flex: 1;">
+                        <strong>Beef (High Volume)</strong>
+                        <div style="font-size: 0.9em; color: #666; margin-top: 5px;">120 lbs/week @ $8/lb</div>
+                        <div class="ingredient-bar">
+                            <div class="ingredient-bar-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="cost-highlight">$960/wk</div>
+                </div>
+                <div class="ingredient-item">
+                    <div style="flex: 1;">
+                        <strong>Chicken (Medium Volume)</strong>
+                        <div style="font-size: 0.9em; color: #666; margin-top: 5px;">80 lbs/week @ $4/lb</div>
+                        <div class="ingredient-bar">
+                            <div class="ingredient-bar-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="cost-highlight">$320/wk</div>
+                </div>
+                <div class="ingredient-item">
+                    <div style="flex: 1;">
+                        <strong>Eggs (High Usage)</strong>
+                        <div style="font-size: 0.9em; color: #666; margin-top: 5px;">600 eggs/week @ $0.30/egg</div>
+                        <div class="ingredient-bar">
+                            <div class="ingredient-bar-fill" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div class="cost-highlight">$180/wk</div>
+                </div>
+                <div style="margin-top: 30px; padding: 25px; background: #FFFBF7; border: 2px solid #E8D5C4; text-align: center;">
+                    <div style="font-family: 'Playfair Display', serif; font-size: 1.8em; color: #8B0000; font-weight: 700;">$1,610</div>
+                    <div style="margin-top: 8px; color: #666; font-size: 0.9em;">Total Weekly Cost</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Optimization Recommendations</h3>
+                <div class="alert alert-success">
+                    <strong>Bulk Buying Opportunity</strong>
+                    Consider negotiating monthly contracts for beef and chicken to save 10-15%
+                </div>
+                <div class="alert alert-success">
+                    <strong>Reduce Waste</strong>
+                    Green onions and cilantro have high spoilage rates. Optimize order quantities based on 5-day freshness window.
+                </div>
+                <div class="alert alert-success">
+                    <strong>Menu Engineering</strong>
+                    Promote dishes with overlapping ingredients to improve ingredient utilization and reduce complexity.
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Mai Shan Yun Restaurant Intelligence System</p>
+            <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">Real-time Analytics • Inventory Management • Forecasting</p>
+        </footer>
     </div>
 
     <script>
-        // Tab switching functionality
         function showTab(tabName) {
             const tabs = document.querySelectorAll('.tab');
             const contents = document.querySelectorAll('.tab-content');
@@ -547,7 +647,6 @@
             document.getElementById(tabName).classList.add('active');
         }
 
-        // Ingredient Usage Chart
         const ingredientCtx = document.getElementById('ingredientUsageChart').getContext('2d');
         new Chart(ingredientCtx, {
             type: 'bar',
@@ -557,14 +656,14 @@
                     label: 'Weekly Usage',
                     data: [2800, 2200, 42, 5250, 15, 340],
                     backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
-                        'rgba(237, 100, 166, 0.8)',
-                        'rgba(255, 159, 64, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)'
+                        'rgba(139, 0, 0, 0.8)',
+                        'rgba(178, 34, 34, 0.8)',
+                        'rgba(139, 0, 0, 0.6)',
+                        'rgba(178, 34, 34, 0.6)',
+                        'rgba(139, 0, 0, 0.7)',
+                        'rgba(178, 34, 34, 0.7)'
                     ],
-                    borderRadius: 8
+                    borderRadius: 0
                 }]
             },
             options: {
@@ -580,14 +679,14 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Quantity (g/count)'
+                            text: 'Quantity (g/count)',
+                            font: { family: 'Lato' }
                         }
                     }
                 }
             }
         });
 
-        // Menu Sales Chart
         const salesCtx = document.getElementById('menuSalesChart').getContext('2d');
         new Chart(salesCtx, {
             type: 'line',
@@ -596,31 +695,35 @@
                 datasets: [{
                     label: 'Ramen Dishes',
                     data: [145, 158, 172, 189],
-                    borderColor: 'rgba(102, 126, 234, 1)',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderColor: 'rgba(139, 0, 0, 1)',
+                    backgroundColor: 'rgba(139, 0, 0, 0.1)',
                     tension: 0.4,
-                    fill: true
+                    fill: true,
+                    borderWidth: 2
                 }, {
                     label: 'Fried Rice',
                     data: [132, 128, 135, 142],
-                    borderColor: 'rgba(118, 75, 162, 1)',
-                    backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                    borderColor: 'rgba(178, 34, 34, 1)',
+                    backgroundColor: 'rgba(178, 34, 34, 0.1)',
                     tension: 0.4,
-                    fill: true
+                    fill: true,
+                    borderWidth: 2
                 }, {
                     label: 'Wings & Cutlets',
                     data: [98, 105, 102, 110],
-                    borderColor: 'rgba(237, 100, 166, 1)',
-                    backgroundColor: 'rgba(237, 100, 166, 0.1)',
+                    borderColor: 'rgba(212, 175, 55, 1)',
+                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
                     tension: 0.4,
-                    fill: true
+                    fill: true,
+                    borderWidth: 2
                 }, {
                     label: 'Rice Noodles',
                     data: [67, 72, 78, 85],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    borderColor: 'rgba(45, 80, 22, 1)',
+                    backgroundColor: 'rgba(45, 80, 22, 0.1)',
                     tension: 0.4,
-                    fill: true
+                    fill: true,
+                    borderWidth: 2
                 }]
             },
             options: {
@@ -629,6 +732,9 @@
                 plugins: {
                     legend: {
                         position: 'top',
+                        labels: {
+                            font: { family: 'Lato' }
+                        }
                     }
                 },
                 scales: {
@@ -636,14 +742,14 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Orders'
+                            text: 'Orders',
+                            font: { family: 'Lato' }
                         }
                     }
                 }
             }
         });
 
-        // Forecast Chart
         const forecastCtx = document.getElementById('forecastChart').getContext('2d');
         new Chart(forecastCtx, {
             type: 'line',
@@ -652,15 +758,15 @@
                 datasets: [{
                     label: 'Actual Demand',
                     data: [442, 463, 487, 526, null, null],
-                    borderColor: 'rgba(102, 126, 234, 1)',
-                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                    borderColor: 'rgba(139, 0, 0, 1)',
+                    backgroundColor: 'rgba(139, 0, 0, 0.2)',
                     borderWidth: 3,
                     tension: 0.4
                 }, {
                     label: 'Predicted Demand',
                     data: [null, null, null, 526, 548, 572],
-                    borderColor: 'rgba(237, 100, 166, 1)',
-                    backgroundColor: 'rgba(237, 100, 166, 0.2)',
+                    borderColor: 'rgba(212, 175, 55, 1)',
+                    backgroundColor: 'rgba(212, 175, 55, 0.2)',
                     borderWidth: 3,
                     borderDash: [10, 5],
                     tension: 0.4
@@ -672,6 +778,9 @@
                 plugins: {
                     legend: {
                         position: 'top',
+                        labels: {
+                            font: { family: 'Lato' }
+                        }
                     }
                 },
                 scales: {
@@ -679,20 +788,12 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Total Orders'
+                            text: 'Total Orders',
+                            font: { family: 'Lato' }
                         }
                     }
                 }
             }
-        });
-
-        // Animate metrics on load
-        window.addEventListener('load', () => {
-            document.querySelectorAll('.metric').forEach((metric, index) => {
-                setTimeout(() => {
-                    metric.style.animation = 'slideIn 0.5s ease forwards';
-                }, index * 100);
-            });
         });
     </script>
 </body>
