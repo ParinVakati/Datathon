@@ -504,7 +504,7 @@ def run_server(port: int = 8000):
     """Run the MCP server."""
     server_address = ('', port)
     httpd = HTTPServer(server_address, MCPRequestHandler)
-    print(f"🚀 Developer Intelligence MCP Server running on http://localhost:{port}")
+    print(f" Developer Intelligence MCP Server running on http://localhost:{port}")
     print(f" Health check: http://localhost:{port}/health")
     print(f" Submit queries to: http://localhost:{port}/query")
     print("\nPress Ctrl+C to stop the server.")
