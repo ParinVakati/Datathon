@@ -2,7 +2,7 @@
 
 A smart context engine that intelligently fetches, filters, and formats data from multiple real-world services (GitHub, Weather APIs, Time/Date) to provide rich, contextual information for AI-powered developer assistance.
 
-## 🎯 Purpose
+##  Purpose
 
 This MCP (Model Context Protocol) server acts as a "smart context engine" that enhances AI assistants by providing relevant, real-time context from multiple data sources. When a developer asks a question, the server automatically:
 
@@ -21,24 +21,24 @@ The server uses intelligent keyword detection to determine which data sources to
 
 ### Data Sources
 
-#### 1. **GitHub API** 🔷
+#### 1. **GitHub API** 
 - Fetches user repositories (recent, starred, updated)
 - Retrieves open issues and pull requests
 - Provides code context and project status
 - Supports repository-specific queries
 
-#### 2. **Weather API** 🌤️
+#### 2. **Weather API** 
 - Current weather conditions (temperature, humidity, wind)
 - Weather forecasts for planning
 - Location-aware context (configurable city)
 
-#### 3. **Time/Date Service** ⏰
+#### 3. **Time/Date Service** 
 - Current date and time
 - Day of week, week number
 - Relative dates (tomorrow, yesterday)
 - Time-of-day context (morning, afternoon, evening)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -93,7 +93,7 @@ The server uses intelligent keyword detection to determine which data sources to
    curl http://localhost:8000/health
    ```
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### POST `/query`
 Submit a query to get contextual information.
@@ -153,7 +153,7 @@ Health check endpoint.
 ### GET `/`
 Service information endpoint.
 
-## 💡 Example Prompts
+##  Example Prompts
 
 ### GitHub Context Examples
 
@@ -195,7 +195,7 @@ Service information endpoint.
 - **Context Fetched:** GitHub issues, weather, and time context
 - **AI Response:** "You have 3 open issues that need attention. Today's weather is perfect for focused work (22°C, clear). Tomorrow's forecast shows rain, so today might be better for coding. Consider tackling issue #42 first..."
 
-## 🧪 Testing the Server
+##  Testing the Server
 
 ### Using cURL
 
@@ -236,7 +236,7 @@ A test script is included (`test_client.py`) that demonstrates various query typ
 python test_client.py
 ```
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 User Query
@@ -258,7 +258,7 @@ Formatted Context Package
 AI Model (receives rich context for response)
 ```
 
-## 🎨 Key Features
+## Key Features
 
 ### 1. **Intelligent Query Analysis**
 - Automatically detects what context is needed
@@ -285,14 +285,14 @@ AI Model (receives rich context for response)
 - Modular architecture
 - Clean separation of concerns
 
-## 🔒 Security & Privacy
+##  Security & Privacy
 
 - **API Keys**: Store in environment variables, never commit to version control
 - **No Data Storage**: Server doesn't store queries or responses
 - **HTTPS Recommended**: For production, use HTTPS with proper certificates
 - **Rate Limiting**: Consider implementing rate limiting for production use
 
-## 🚧 Limitations & Future Enhancements
+##  Limitations & Future Enhancements
 
 ### Current Limitations
 - Weather API requires API key (free tier available)
@@ -309,7 +309,7 @@ AI Model (receives rich context for response)
 - GraphQL endpoint
 - Rate limiting and request throttling
 
-## 📝 Example Integration with AI Models
+##  Example Integration with AI Models
 
 ### With OpenAI API
 
@@ -355,15 +355,15 @@ message = client.messages.create(
 )
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 This is a competition submission. Feel free to fork and extend it!
 
-## 📄 License
+##  License
 
 This project is created for the Build-Your-Own-MCP Challenge.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - GitHub API for repository and issue data
 - OpenWeatherMap for weather data
@@ -371,7 +371,7 @@ This project is created for the Build-Your-Own-MCP Challenge.
 
 ---
 
-**Built with ❤️ for the Build-Your-Own-MCP Challenge**
+**Built with  for the Build-Your-Own-MCP Challenge**
 
 *Making AI assistants more personal, aware, and useful through intelligent context.*
 

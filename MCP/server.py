@@ -505,14 +505,14 @@ def run_server(port: int = 8000):
     server_address = ('', port)
     httpd = HTTPServer(server_address, MCPRequestHandler)
     print(f"🚀 Developer Intelligence MCP Server running on http://localhost:{port}")
-    print(f"📡 Health check: http://localhost:{port}/health")
-    print(f"💡 Submit queries to: http://localhost:{port}/query")
+    print(f" Health check: http://localhost:{port}/health")
+    print(f" Submit queries to: http://localhost:{port}/query")
     print("\nPress Ctrl+C to stop the server.")
     
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\n\n🛑 Shutting down server...")
+        print("\n\n Shutting down server...")
         httpd.shutdown()
 
 

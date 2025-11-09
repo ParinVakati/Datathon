@@ -63,9 +63,9 @@ if __name__ == '__main__':
     try:
         example_usage()
     except requests.exceptions.ConnectionError:
-        print("❌ Error: Could not connect to server.")
+        print(" Error: Could not connect to server.")
         print("Please make sure the server is running:")
         print("  python server.py")
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
 

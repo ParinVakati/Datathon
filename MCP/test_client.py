@@ -21,10 +21,10 @@ def test_health_check(base_url: str = 'http://localhost:8000'):
         print(f"Response: {json.dumps(response.json(), indent=2)}")
         return response.status_code == 200
     except requests.exceptions.ConnectionError:
-        print("❌ ERROR: Could not connect to server. Is it running?")
+        print(" ERROR: Could not connect to server. Is it running?")
         return False
     except Exception as e:
-        print(f"❌ ERROR: {e}")
+        print(f" ERROR: {e}")
         return False
 
 
@@ -45,8 +45,8 @@ def test_query(base_url: str, query: str, description: str):
         
         if response.status_code == 200:
             data = response.json()
-            print(f"✅ Success: {data.get('success', False)}")
-            print(f"📡 Sources Used: {', '.join(data.get('sources_used', []))}")
+            print(f" Success: {data.get('success', False)}")
+            print(f" Sources Used: {', '.join(data.get('sources_used', []))}")
             print("\n" + "-"*80)
             print("FORMATTED CONTEXT:")
             print("-"*80)
@@ -57,27 +57,27 @@ def test_query(base_url: str, query: str, description: str):
             print(json.dumps(data.get('context_package', {}), indent=2))
             return True
         else:
-            print(f"❌ Error: Status {response.status_code}")
+            print(f" Error: Status {response.status_code}")
             print(f"Response: {response.text}")
             return False
             
     except requests.exceptions.ConnectionError:
-        print("❌ ERROR: Could not connect to server. Is it running?")
+        print(" ERROR: Could not connect to server. Is it running?")
         return False
     except Exception as e:
-        print(f"❌ ERROR: {e}")
+        print(f" ERROR: {e}")
         return False
 
 
 def run_all_tests(base_url: str = 'http://localhost:8000'):
     """Run all test queries."""
-    print("\n" + "🚀"*40)
+    print("\n" + ""*40)
     print("DEVELOPER INTELLIGENCE MCP SERVER - TEST SUITE")
-    print("🚀"*40)
+    print(""*40)
     
     # Test 1: Health check
     if not test_health_check(base_url):
-        print("\n❌ Server is not running. Please start the server first:")
+        print("\n Server is not running. Please start the server first:")
         print("   python server.py")
         return
     
@@ -124,7 +124,7 @@ def run_all_tests(base_url: str = 'http://localhost:8000'):
     )
     
     print("\n" + "="*80)
-    print("✅ TEST SUITE COMPLETE")
+    print(" TEST SUITE COMPLETE")
     print("="*80)
     print("\nNote: Some tests may show limited results if API keys are not configured.")
     print("To get full functionality:")
